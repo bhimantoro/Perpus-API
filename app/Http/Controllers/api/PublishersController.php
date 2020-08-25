@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Author;
 use App\Http\Controllers\Controller;
+use App\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class AuthorsController extends Controller
+class PublishersController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
@@ -16,7 +16,7 @@ class AuthorsController extends Controller
 	 */
 	public function index()
 	{
-		$index = Author::latest()->get();
+		$index = Publisher::latest()->get();
 		return response([
 			'status' => true,
 			'data' => $index,
@@ -36,11 +36,13 @@ class AuthorsController extends Controller
 			$request->all(),
 			[
 				'name' => 'required',
-				'email' => 'required|unique:authors'
+				'address' => 'required',
+				'email' => 'required|unique:publishers'
 			],
 			[
-				'name.required' => 'Nama tidak boleh kosong!',
-				'email.required' => 'Email tidak boleh kosong dan sama'
+				'name.required' => 'Nama tidak boleh kosong',
+				'address.required' => 'alamat tidak boleh kosong',
+				'email.required' => 'email tidak boleh kosong dan sama'
 			]
 		);
 
@@ -51,9 +53,12 @@ class AuthorsController extends Controller
 				'message' => 'gagal'
 			], 400);
 		} else {
-			$store = Author::create([
+			$store = Publisher::create([
 				'name' => $request->input('name'),
-				'email' => $request->input('email')
+				'address' => $request->input('address'),
+				'email' => $request->input('email'),
+				'telephone' => $request->input('telephone'),
+				'fax' => $request->input('fax')
 			]);
 			return $store ? response()->json(['status' => true, 'message' => 'sukses'], 201) : response()->json(['status' => false, 'message' => 'gagal'], 400);
 		}
@@ -67,9 +72,9 @@ class AuthorsController extends Controller
 	 */
 	public function show($id)
 	{
-		$show = Author::whereId($id)->first();
+		$show = Publisher::find($id);
 
-		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => null, 'message' => 'id tidak ditemukan'], 404);
+		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => $show, 'message' => 'gagal'], 404);
 	}
 
 	/**
@@ -85,24 +90,25 @@ class AuthorsController extends Controller
 			$request->all(),
 			[
 				'name' => 'required',
-				'email' => 'required|unique:authors'
+				'address' => 'required',
+				'email' => 'required|unique:publishers'
 			],
 			[
 				'name.required' => 'Nama tidak boleh kosong',
+				'address.required' => 'alamat tidak boleh kosong',
 				'email.required' => 'email tidak boleh kosong dan sama'
 			]
 		);
 
 		if ($validator->fails()) {
-			return response()->json([
-				'status' => false,
-				'data' => $validator->errors(),
-				'message' => 'Silahkan isi bagian yang kosong'
-			], 400);
+			return response()->json(['status' => false, 'data' => $validator->errors(), 'message' => 'gagal'], 400);
 		} else {
-			$update = Author::whereId($id)->update([
+			$update = Publisher::find($id)->update([
 				'name' => $request->input('name'),
-				'email' => $request->input('email')
+				'address' => $request->input('address'),
+				'email' => $request->input('email'),
+				'telephone' => $request->input('telephone'),
+				'fax' => $request->input('fax')
 			]);
 			return $update ? response()->json(['status' => true, 'message' => 'sukses'], 201) : response()->json(['status' => false, 'message' => 'gagal'], 400);
 		}
@@ -116,9 +122,9 @@ class AuthorsController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$author = Author::find($id);
+		$publisher = Publisher::find($id);
 
-		$destroy = $author ? $author->delete() : false;
+		$destroy = $publisher ? $publisher->delete() : false;
 
 		return $destroy ? response()->json(['status' => true, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'message' => 'gagal'], 400);
 	}
