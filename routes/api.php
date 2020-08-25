@@ -24,4 +24,11 @@ Route::namespace('api')->group(function () {
     Route::post('shelf', 'ShelvesController@store');
     Route::post('shelf/{id}', 'ShelvesController@update');
     Route::delete('shelf/{id}', 'ShelvesController@destroy');
+
+    // Category
+    Route::get('category', 'CategoriesController@index');
+    Route::get('category/{id}', 'CategoriesController@show');
+    Route::post('category', 'CategoriesController@store');
+    Route::post('category/{id}', 'CategoriesController@update');
+    Route::delete('category/{id}', 'CategoriesController@destroy');
 });
