@@ -16,7 +16,7 @@ class CreateBooksRegistrationsTable extends Migration
 		Schema::create('books_registrations', function (Blueprint $table) {
 			$table->bigIncrements('id');
 			$table->string('registration_number', 25);
-			$table->bigInteger('shelf');
+			$table->bigInteger('shelf_id');
 			$table->timestamps();
 		});
 	}
