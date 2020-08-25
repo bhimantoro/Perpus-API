@@ -38,4 +38,11 @@ Route::namespace('api')->group(function () {
     Route::post('book', 'BooksController@store');
     Route::post('book/{id}', 'BooksController@update');
     Route::delete('book/{id}', 'BooksController@destroy');
+
+    // Book Registration
+    Route::get('book/registration', 'BooksRegistrationController@index');
+    Route::get('book/registration/{id}', 'BooksRegistrationController@show');
+    Route::post('book/registration', 'BooksRegistrationController@store');
+    Route::post('book/registration/{id}', 'BooksRegistrationController@update');
+    Route::delete('book/registration/{id}', 'BooksRegistrationController@destroy');
 });
