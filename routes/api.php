@@ -31,4 +31,11 @@ Route::namespace('api')->group(function () {
     Route::post('category', 'CategoriesController@store');
     Route::post('category/{id}', 'CategoriesController@update');
     Route::delete('category/{id}', 'CategoriesController@destroy');
+
+    // Book
+    Route::get('book', 'BooksController@index');
+    Route::get('book/{id}', 'BooksController@show');
+    Route::post('book', 'BooksController@store');
+    Route::post('book/{id}', 'BooksController@update');
+    Route::delete('book/{id}', 'BooksController@destroy');
 });
