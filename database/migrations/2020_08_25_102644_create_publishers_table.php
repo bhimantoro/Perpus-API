@@ -18,8 +18,8 @@ class CreatePublishersTable extends Migration
 			$table->string('name');
 			$table->text('address');
 			$table->string('email')->unique();
-			$table->string('telephone');
-			$table->string('fax');
+			$table->string('telephone')->nullable();
+			$table->string('fax')->nullable();
 			$table->timestamps();
 		});
 	}

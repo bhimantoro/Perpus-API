@@ -22,7 +22,7 @@ class CreateCirculationsTable extends Migration
 			$table->date('entry_date');
 			$table->date('out_date');
 			$table->tinyInteger('status');
-			$table->integer('penalty');
+			$table->integer('penalty')->nullable();
 			$table->timestamps();
 		});
 	}
