@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PublishersCollection;
+use App\Http\Resources\PublishersResource;
 use App\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,12 +18,7 @@ class PublishersController extends Controller
 	 */
 	public function index()
 	{
-		$index = Publisher::latest()->get();
-		return response([
-			'status' => true,
-			'data' => $index,
-			'message' => 'sukses'
-		], 200);
+		return new PublishersCollection(Publisher::paginate(10));
 	}
 
 	/**
@@ -72,9 +69,7 @@ class PublishersController extends Controller
 	 */
 	public function show($id)
 	{
-		$show = Publisher::find($id);
-
-		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => $show, 'message' => 'gagal'], 404);
+		return new PublishersResource(Publisher::find($id));
 	}
 
 	/**

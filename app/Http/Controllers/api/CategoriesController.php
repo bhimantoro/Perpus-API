@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoriesCollection;
+use App\Http\Resources\CategoriesResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,8 +18,7 @@ class CategoriesController extends Controller
 	 */
 	public function index()
 	{
-		$index = Category::get();
-		return response()->json(['status' => true, 'data' => $index, 'message' => 'sukses'], 200);
+		return new CategoriesCollection(Category::paginate(10));
 	}
 
 	/**
@@ -45,8 +46,7 @@ class CategoriesController extends Controller
 	 */
 	public function show($id)
 	{
-		$show = Category::find($id);
-		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => $show, 'message' => 'gagal'], 404);
+		return new CategoriesResource(Category::find($id));
 	}
 
 	/**

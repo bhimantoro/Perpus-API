@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Author;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthorsCollection;
+use App\Http\Resources\AuthorsResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,12 +18,7 @@ class AuthorsController extends Controller
 	 */
 	public function index()
 	{
-		$index = Author::latest()->get();
-		return response([
-			'status' => true,
-			'data' => $index,
-			'message' => 'sukses'
-		], 200);
+		return new AuthorsCollection(Author::paginate(10));
 	}
 
 	/**
@@ -67,9 +64,7 @@ class AuthorsController extends Controller
 	 */
 	public function show($id)
 	{
-		$show = Author::whereId($id)->first();
-
-		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => null, 'message' => 'id tidak ditemukan'], 404);
+		return new AuthorsResource(Author::find($id));
 	}
 
 	/**

@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Publisher extends Model
 {
-    protected $fillable = ['name', 'address', 'email', 'telephone', 'fax'];
+	protected $fillable = ['name', 'address', 'email', 'telephone', 'fax'];
+
+	public function book()
+	{
+		return $this->hasMany('App\Book');
+	}
 }

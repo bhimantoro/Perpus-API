@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Book;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BooksCollection;
+use App\Http\Resources\BooksResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,8 +18,7 @@ class BooksController extends Controller
 	 */
 	public function index()
 	{
-		$index = Book::get();
-		return response()->json(['status' => true, 'data' => $index, 'message' => 'sukses'], 200);
+		return new BooksCollection(Book::paginate(10));
 	}
 
 	/**
@@ -74,8 +75,7 @@ class BooksController extends Controller
 	 */
 	public function show($id)
 	{
-		$show = Book::find($id);
-		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => $show, 'message' => 'gagal'], 404);
+		return new BooksResource(Book::find($id));
 	}
 
 	/**

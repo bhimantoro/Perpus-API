@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ShelvesCollection;
+use App\Http\Resources\ShelvesResource;
 use App\Shelf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,8 +18,7 @@ class ShelvesController extends Controller
 	 */
 	public function index()
 	{
-		$index = Shelf::latest()->get();
-		return response()->json(['status' => true, 'data' => $index, 'message' => 'sukses'], 200);
+		return new ShelvesCollection(Shelf::paginate(10));
 	}
 
 	/**
@@ -48,8 +49,7 @@ class ShelvesController extends Controller
 	 */
 	public function show($id)
 	{
-		$show = Shelf::find($id);
-		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => $show, 'message' => 'gagal'], 404);
+		return new ShelvesResource(Shelf::find($id));
 	}
 
 	/**

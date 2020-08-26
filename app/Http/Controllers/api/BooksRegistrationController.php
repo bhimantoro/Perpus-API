@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\BooksRegistration;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BooksRegistrationCollection;
+use App\Http\Resources\BooksRegistrationResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,8 +18,9 @@ class BooksRegistrationController extends Controller
 	 */
 	public function index()
 	{
-		$index = BooksRegistration::get();
-		return response()->json(['status' => true, 'data' => $index, 'message' => 'sukses'], 200);
+		// $index = BooksRegistration::get();
+		// return response()->json(['status' => true, 'data' => $index, 'message' => 'sukses'], 200);
+		return new BooksRegistrationCollection(BooksRegistration::paginate(10));
 	}
 
 	/**
@@ -28,9 +31,24 @@ class BooksRegistrationController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$validator = Validator::make($request->all(), ['registration_number', 'required|unique:books_registrations', 'shelf' => 'required'], ['registration_number.required' => 'kode registrasi tidak boleh kosong', 'shelf.required' => 'kode rak tidak boleh kosong']);
+		$validator = Validator::make(
+			$request->all(),
+			[
+				'registration_number' => 'required|unique:books_registrations',
+				'shelf' => 'required'
+			],
+			[
+				'registration_number.required' => 'Nama tidak boleh kosong!',
+				'shelf.required' => 'Email tidak boleh kosong dan sama'
+			]
+		);
+
 		if ($validator->fails()) {
-			return response()->json(['status' => false, 'data' => $validator->errors(), 'message' => 'gagal'], 400);
+			return response()->json([
+				'status' => false,
+				'data' => $validator->errors(),
+				'message' => 'gagal'
+			], 400);
 		} else {
 			$store = BooksRegistration::create([
 				'registration_number' => $request->input('registration_number'),
@@ -48,8 +66,9 @@ class BooksRegistrationController extends Controller
 	 */
 	public function show($id)
 	{
-		$show = BooksRegistration::find($id);
-		return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => $show, 'message' => 'gagal'], 404);
+		// $show = BooksRegistration::find($id);
+		// return $show ? response()->json(['status' => true, 'data' => $show, 'message' => 'sukses'], 200) : response()->json(['status' => false, 'data' => $show, 'message' => 'gagal'], 404);
+		return new BooksRegistrationResource(BooksRegistration::find($id));
 	}
 
 	/**
@@ -61,9 +80,24 @@ class BooksRegistrationController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		$validator = Validator::make($request->all(), ['registration_number', 'required|unique:books_registrations', 'shelf' => 'required'], ['registration_number.required' => 'kode registrasi tidak boleh kosong', 'shelf.required' => 'kode rak tidak boleh kosong']);
+		$validator = Validator::make(
+			$request->all(),
+			[
+				'registration_number' => 'required|unique:books_registrations',
+				'shelf' => 'required'
+			],
+			[
+				'registration_number.required' => 'Nama tidak boleh kosong!',
+				'shelf.required' => 'Email tidak boleh kosong dan sama'
+			]
+		);
+
 		if ($validator->fails()) {
-			return response()->json(['status' => false, 'data' => $validator->errors(), 'message' => 'gagal'], 400);
+			return response()->json([
+				'status' => false,
+				'data' => $validator->errors(),
+				'message' => 'gagal'
+			], 400);
 		} else {
 			$store = BooksRegistration::find($id)->update([
 				'registration_number' => $request->input('registration_number'),
