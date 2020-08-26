@@ -10,15 +10,15 @@ class Circulation extends Model
 		'user_id', 'book_id', 'code', 'book_code', 'entry_date', 'out_date', 'status', 'penalty'
 	];
 
-	protected $with = ['books', 'users'];
+	protected $with = ['books'];
 
 	public function books()
 	{
-		return $this->belongsToMany('App\Book', 'books');
+		return $this->belongsTo('App\Book');
 	}
 
 	public function users()
 	{
-		return $this->belongsToMany('App\User', 'users');
+		return $this->belongsTo('App\User');
 	}
 }

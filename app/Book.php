@@ -10,9 +10,9 @@ class Book extends Model
 		'title', 'publisher_id', 'category_id', 'author_id', 'books_registrations_id', 'shelf_id', 'year'
 	];
 
-	protected $with = ['books_registrations', 'author', 'category', 'publisher'];
+	protected $with = ['books_registration', 'author', 'category', 'publisher'];
 
-	public function books_registrations()
+	public function books_registration()
 	{
 		return $this->belongsTo('App\BooksRegistration');
 	}
@@ -32,7 +32,7 @@ class Book extends Model
 		return $this->belongsTo('App\Publisher');
 	}
 
-	public function circulations()
+	public function circulation()
 	{
 		return $this->hasMany('App\Circulation');
 	}
