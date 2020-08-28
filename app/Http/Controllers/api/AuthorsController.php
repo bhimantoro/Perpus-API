@@ -80,7 +80,7 @@ class AuthorsController extends Controller
 			$request->all(),
 			[
 				'name' => 'required',
-				'email' => 'required|unique:authors'
+				'email' => 'required'
 			],
 			[
 				'name.required' => 'Nama tidak boleh kosong',
