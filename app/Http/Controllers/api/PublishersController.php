@@ -86,7 +86,7 @@ class PublishersController extends Controller
 			[
 				'name' => 'required',
 				'address' => 'required',
-				'email' => 'required|unique:publishers'
+				'email' => 'required'
 			],
 			[
 				'name.required' => 'Nama tidak boleh kosong',
